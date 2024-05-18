@@ -15,10 +15,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
+        select: false, //不讓密碼被查詢到
     },
     salt: {
         type: String,
         required: true,
+        select: false, //不讓加密鹽被查詢到
     },
 }, modelOption);
 
