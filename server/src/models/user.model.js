@@ -1,51 +1,53 @@
-import mongoose, { model } from 'mongoose';
-import modelOption from './model.options.js';
-import crypto from 'crypto';
+import mongoose from "mongoose";
+import modelOptions from "./model.options.js";
+import crypto from "crypto";
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     displayName: {
         type: String,
-        required: true,
+        required: true
     },
     password: {
         type: String,
         required: true,
-        select: false, //不讓密碼被查詢到
+        select: false
     },
     salt: {
         type: String,
         required: true,
-        select: false, //不讓加密鹽被查詢到
-    },
-}, modelOption);
+        select: false
+    }
+}, modelOptions);
 
 userSchema.methods.setPassword = function (password) {
-    this.salt = crypto.randomBytes(16).toString('hex');
+    this.salt = crypto.randomBytes(16).toString("hex");
+
     this.password = crypto.pbkdf2Sync(
         password,
         this.salt,
         1000,
         64,
-        'sha512'
-    ).toString('hex');
+        "sha512"
+    ).toString("hex");
 };
 
-userSchema.methods.validatePassword = function (password) {
+userSchema.methods.validPassword = function (password) {
     const hash = crypto.pbkdf2Sync(
         password,
         this.salt,
         1000,
         64,
-        'sha512'
-    ).toString('hex');
+        "sha512"
+    ).toString("hex");
+
     return this.password === hash;
 };
 
-const userModel = mongoose.model('User', userSchema);
+const userModel = mongoose.model("User", userSchema);
 
 export default userModel;

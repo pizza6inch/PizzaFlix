@@ -1,6 +1,6 @@
-import userModel from '../models/user.model.js';
-import jsonwebtoken from 'jsonwebtoken';
-import responseHandler from '../handlers/response.handler.js';
+import userModel from "../models/user.model.js";
+import jsonwebtoken from "jsonwebtoken";
+import responseHandler from "../handlers/response.handler.js";
 
 const signup = async (req, res) => {
     try {
@@ -8,20 +8,20 @@ const signup = async (req, res) => {
 
         const checkUser = await userModel.findOne({ username });
 
-        if (checkUser) return responseHandler.badrequest(res, "Username already exists");
+        if (checkUser) return responseHandler.badrequest(res, "username already used");
 
         const user = new userModel();
 
         user.displayName = displayName;
         user.username = username;
-        user.password = user.setPassword(password);
+        user.setPassword(password);
 
         await user.save();
 
         const token = jsonwebtoken.sign(
-            { data: user.id }, // 要加密的數據
-            process.env.TOKEN_SECRET, // 加密的密鑰
-            { expiresIn: '24h' } // 過期時間
+            { data: user.id },
+            process.env.TOKEN_SECRET,
+            { expiresIn: "24h" }
         );
 
         responseHandler.created(res, {
@@ -39,40 +39,39 @@ const signin = async (req, res) => {
         const { username, password } = req.body;
 
         const user = await userModel.findOne({ username }).select("username password salt id displayName");
-        // 利用username查找user，並只返回username, password, salt, id, displayName
 
-        if (!user) return responseHandler.badrequest(res, "User not exists");
+        if (!user) return responseHandler.badrequest(res, "User not exist");
 
-        if (!user.validatePassword(password)) return responseHandler.badrequest(res, "Password incorrect");
+        if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
 
         const token = jsonwebtoken.sign(
-            { data: user.id }, // 要加密的數據
-            process.env.TOKEN_SECRET, // 加密的密鑰
-            { expiresIn: '24h' } // 過期時間
+            { data: user.id },
+            process.env.TOKEN_SECRET,
+            { expiresIn: "24h" }
         );
 
-        user.password = undefined; // 不返回密碼
-        user.salt = undefined; // 不返回加密鹽
+        user.password = undefined;
+        user.salt = undefined;
 
         responseHandler.created(res, {
             token,
-            ...user._doc, // 等同於傳入user的所有屬性用一行代碼
+            ...user._doc,
             id: user.id
         });
     } catch {
         responseHandler.error(res);
     }
-}
+};
 
 const updatePassword = async (req, res) => {
     try {
         const { password, newPassword } = req.body;
 
-        const user = await userModel.findById(req.user.data).select("password id salt");
+        const user = await userModel.findById(req.user.id).select("password id salt");
 
-        if (!user) return responseHandler.unathorized(res);
+        if (!user) return responseHandler.unauthorize(res);
 
-        if (!user.validatePassword(password)) return responseHandler.badrequest(res, "Password incorrect");
+        if (!user.validPassword(password)) return responseHandler.badrequest(res, "Wrong password");
 
         user.setPassword(newPassword);
 
@@ -82,11 +81,11 @@ const updatePassword = async (req, res) => {
     } catch {
         responseHandler.error(res);
     }
-}
+};
 
 const getInfo = async (req, res) => {
     try {
-        const user = await userModel.findById(req.user.data);
+        const user = await userModel.findById(req.user.id);
 
         if (!user) return responseHandler.notfound(res);
 
@@ -99,6 +98,6 @@ const getInfo = async (req, res) => {
 export default {
     signup,
     signin,
-    updatePassword,
     getInfo,
+    updatePassword
 };
