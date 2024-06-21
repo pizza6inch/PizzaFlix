@@ -30,3 +30,5 @@ const tmdbEndpoints = {
         `person/${personId}/combined_credits`
     ),
 };
+
+export default tmdbEndpoints;

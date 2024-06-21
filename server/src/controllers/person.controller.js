@@ -1,5 +1,5 @@
-import responseHandler from "../handlers/response.handler";
-import tmdbApi from "../tmdb/tmdb.api"; // direactly fetch data since we are not saving it to the database
+import responseHandler from "../handlers/response.handler.js";
+import tmdbApi from "../tmdb/tmdb.api.js"; // direactly fetch data since we are not saving it to the database
 
 const personDetail = async (req, res) => {
     try {
