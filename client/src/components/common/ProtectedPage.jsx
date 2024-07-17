@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { Children } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-const ProtectedPage = () => {
+
+import { setAuthModalOpen } from '../../redux/features/authModalSlice'
+const ProtectedPage = ({ Children }) => {
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.user)
   useEffect(() => {
-    if (!user) dispatch(setAuth)
+    dispatch(setAuthModalOpen(!user)) // if not user then show AuthModal
   }, [user, dispatch])
 
-  return <div>ProtectedPage</div>
+  return user ? Children : null
 }
 
 export default ProtectedPage

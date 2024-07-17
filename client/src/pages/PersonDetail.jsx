@@ -1,7 +1,7 @@
 import React from 'react'
 
-const PasswordDetail = () => {
+const PersonDetail = () => {
   return <div>PasswordDetail</div>
 }
 
-export default PasswordDetail
+export default PersonDetail
