@@ -5,7 +5,7 @@ import Logo from './Logo'
 
 const GlobalLoading = () => {
   const { globalLoading } = useSelector(state => state.globalLoading)
-  const [isLoading, setIsLoading] = useState(true) //test
+  const [isLoading, setIsLoading] = useState(false) //test
 
   useEffect(() => {
     if (globalLoading) {

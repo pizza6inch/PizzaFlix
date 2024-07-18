@@ -27,13 +27,11 @@ const routes = [
   },
   {
     path: '/person/:personId',
-    index: true,
     element: <PersonDetail />,
     state: 'person.detail',
   },
   {
     path: '/search',
-    index: true,
     element: <MediaSearch />,
     state: 'search',
   },
@@ -47,7 +45,7 @@ const routes = [
     state: 'password.update',
   },
   {
-    path: 'password-update',
+    path: '/favorites',
     element: (
       <ProtectedPage>
         <FavoriteList />
