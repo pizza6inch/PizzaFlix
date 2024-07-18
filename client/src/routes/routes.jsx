@@ -37,4 +37,41 @@ const routes = [
     element: <MediaSearch />,
     state: 'search',
   },
+  {
+    path: '/password-update',
+    element: (
+      <ProtectedPage>
+        <PasswordUpdate />
+      </ProtectedPage>
+    ),
+    state: 'password.update',
+  },
+  {
+    path: 'password-update',
+    element: (
+      <ProtectedPage>
+        <FavoriteList />
+      </ProtectedPage>
+    ),
+    state: 'favorites',
+  },
+  {
+    path: '/reviews',
+    element: (
+      <ProtectedPage>
+        <ReviewList />
+      </ProtectedPage>
+    ),
+    state: 'reviews',
+  },
+  {
+    path: '/:mediaType',
+    element: <MediaList />,
+  },
+  {
+    path: '/:mediaType/:mediaId',
+    element: <MediaDetail />,
+  },
 ]
+
+export default routes
