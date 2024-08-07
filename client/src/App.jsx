@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from '@mui/material/styles'
 import { useSelector } from 'react-redux'
-import themeConfigs from './configs/theme.config'
+import themeConfigs from './configs/theme.configs'
 import { ToastContainer } from 'react-toastify'
 import { CssBaseline } from '@mui/material'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
@@ -14,6 +14,8 @@ const App = () => {
   const { themeMode } = useSelector(state => state.themeMode)
   return (
     <ThemeProvider theme={themeConfigs.custom({ mode: themeMode })}>
+      {' '}
+      {/* 這行讓我們能夠使用sx:{color:指定的變數 如text.primary} */}
       {/* config toastify */}
       <ToastContainer
         position="bottom-left"
