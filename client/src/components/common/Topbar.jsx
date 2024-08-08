@@ -61,8 +61,10 @@ const Topbar = () => {
                   display: { md: 'none' },
                 }}
                 onClick={toggleSidebar}
-              ></IconButton>
-              <MenuIcon />
+              >
+                <MenuIcon />
+              </IconButton>
+
               <Box sx={{ display: { xs: 'inline-block', md: 'none' } }}>
                 <Logo />
               </Box>

@@ -21,10 +21,7 @@ privateClient.interceptors.request.use(async config => {
 })
 
 privateClient.interceptors.response.use(
-  () => {
-    response
-  },
-  error => {
+  response => {
     if (response && response.data) return response.data
     return response
   },

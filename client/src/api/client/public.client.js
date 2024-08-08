@@ -20,10 +20,7 @@ publicClient.interceptors.request.use(async config => {
 })
 
 publicClient.interceptors.response.use(
-  () => {
-    response
-  },
-  error => {
+  response => {
     if (response && response.data) return response.data
     return response
   },
