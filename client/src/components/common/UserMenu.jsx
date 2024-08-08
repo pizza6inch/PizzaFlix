@@ -14,7 +14,7 @@ const UserMenu = () => {
 
   const [anchoerEl, setanchoerEl] = useState(null)
 
-  const toggleMenu = e => setanchoerEl(e.currentTarget)
+  const toggleMenu = e => setanchoerEl(e.currentTarget) //如果點擊以外的地方 會為空null，把菜單隱藏
 
   return (
     <>
