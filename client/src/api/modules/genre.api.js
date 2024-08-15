@@ -1,7 +1,7 @@
 import publicClient from '../client/public.client.js'
 
 const genreEndpoints = {
-  List: ({ mediaType }) => `genres/${mediaType}`,
+  List: ({ mediaType }) => `${mediaType}/genres`,
 }
 
 const genreApi = {

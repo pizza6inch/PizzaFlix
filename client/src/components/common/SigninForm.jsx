@@ -25,12 +25,12 @@ const SigninForm = ({ switchAuthState }) => {
       username: Yup.string().min(8, 'username minimum 8 characters').required('username is required'),
       password: Yup.string().min(8, 'password minimum 8 characters').required('password is required'),
     }),
-    onsubmit: async values => {
-      const {} = await userApi.signin(values)
+    onSubmit: async values => {
       setErrorMessage(undefined)
       setIsLoginRequest(true)
+      //console.log('asdasdasdasd')
       const { response, err } = await userApi.signin(values)
-      setIsLoginRequest(true)
+      setIsLoginRequest(false)
       if (response) {
         SigninForm.resetForm()
         dispatch(setUser(response))
@@ -43,7 +43,7 @@ const SigninForm = ({ switchAuthState }) => {
   })
 
   return (
-    <Box component="form" onsubmit={SigninForm.handleSubmit}>
+    <Box component="form" onSubmit={SigninForm.handleSubmit}>
       <Stack spacing={3}>
         <TextField
           type="text"

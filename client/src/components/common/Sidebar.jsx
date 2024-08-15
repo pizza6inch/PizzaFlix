@@ -35,7 +35,7 @@ export const Sidebar = ({ open, toggleSidebar }) => {
         </Typography>
         {menuConfigs.main.map((item, index) => (
           <ListItemButton
-            key={index}
+            key={item.display}
             sx={{
               borderRadius: '10px',
               marginY: 1,
@@ -59,7 +59,7 @@ export const Sidebar = ({ open, toggleSidebar }) => {
             </Typography>
             {menuConfigs.user.map((item, index) => (
               <ListItemButton
-                key="index"
+                key={item.display}
                 sx={{
                   borderRadius: '10px',
                   marginY: 1,

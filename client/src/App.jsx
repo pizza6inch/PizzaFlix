@@ -10,11 +10,12 @@ import MainLayout from './components/layout/Main.Layout'
 import routes from './routes/routes'
 import PageWrapper from './components/common/PageWrapper'
 
+import 'react-toastify/dist/ReactToastify.css'
+
 const App = () => {
   const { themeMode } = useSelector(state => state.themeMode)
   return (
     <ThemeProvider theme={themeConfigs.custom({ mode: themeMode })}>
-      {' '}
       {/* 這行讓我們能夠使用sx:{color:指定的變數 如text.primary} */}
       {/* config toastify */}
       <ToastContainer
