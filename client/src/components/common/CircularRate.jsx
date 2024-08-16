@@ -2,7 +2,7 @@ import { Box, Typography, CircularProgress, Typo } from '@mui/material'
 
 import React from 'react'
 
-const CircularRate = value => {
+const CircularRate = ({ value }) => {
   return (
     <Box
       sx={{
