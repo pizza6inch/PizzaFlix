@@ -7,10 +7,10 @@ const AutoSwiper = ({ children }) => {
       sx={{
         '& .swiper-slide': {
           width: {
-            xs: '50%',
-            sm: '35%',
-            md: '25%',
-            lg: '20.5%',
+            xs: '50%', // 2 slides per view
+            sm: '35%', // 3 slides per view
+            md: '25%', // 4 slides per view
+            lg: '20.5%', // 5 slides per view
           },
         },
       }}
