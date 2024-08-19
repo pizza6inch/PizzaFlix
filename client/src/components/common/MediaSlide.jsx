@@ -8,6 +8,7 @@ import MediaItem from './MediaItem'
 
 const MediaSlide = ({ mediaType, mediaCategory }) => {
   const [medias, setMedias] = useState([])
+  const [loopEnabled, setLoopEnabled] = useState(false)
   useEffect(() => {
     const getMedias = async () => {
       const { response, err } = await mediaApi.getList({
@@ -15,14 +16,17 @@ const MediaSlide = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       })
-      if (response) setMedias(response.results)
+      if (response) {
+        setLoopEnabled(response.results.length > 1)
+        setMedias(response.results)
+      }
       if (err) toast.error(err)
     }
     getMedias()
   }, [mediaType, mediaCategory])
 
   return (
-    <AutoSwiper>
+    <AutoSwiper loopEnabled={loopEnabled}>
       {medias.map(media => (
         <SwiperSlide key={media.id}>
           <MediaItem media={media} mediaType={mediaType} />

@@ -23,6 +23,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
 
   const [movies, setMovies] = useState([])
   const [genres, setGenres] = useState([])
+  const [loopEnabled, setLoopEnabled] = useState(false)
 
   useEffect(() => {
     const getMedias = async () => {
@@ -31,8 +32,11 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       })
-      // console.log(response.results)
-      if (response) setMovies(response.results)
+      console.log(response.results.length)
+      if (response) {
+        setMovies(response.results)
+        setLoopEnabled(response.results.length > 1)
+      }
       if (err) toast.error(err.massage)
       dispatch(setGlobalLoading(false))
     }
@@ -74,7 +78,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     >
       <Swiper
         grabCursor={true}
-        loop={true}
+        loop={loopEnabled}
         //modules={[AutoPlay]}
         style={{ width: '100%', height: '100%' }}
         //autoplay={{ delay: 3000, disableOnInteraction: false }}

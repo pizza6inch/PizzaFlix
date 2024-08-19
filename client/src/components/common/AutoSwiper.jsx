@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import { Swiper } from 'swiper/react'
-const AutoSwiper = ({ children }) => {
+const AutoSwiper = ({ children, loopEnabled }) => {
   return (
     <Box
       sx={{
@@ -15,7 +15,12 @@ const AutoSwiper = ({ children }) => {
         },
       }}
     >
-      <Swiper slidesPerView="auto" grabCursor={true} style={{ width: '100%', height: 'max-content' }}>
+      <Swiper
+        loop={loopEnabled}
+        slidesPerView="auto"
+        grabCursor={true}
+        style={{ width: '100%', height: 'max-content' }}
+      >
         {children}
       </Swiper>
     </Box>

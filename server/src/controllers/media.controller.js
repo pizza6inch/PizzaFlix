@@ -1,9 +1,9 @@
 import responseHandler from '../handlers/response.handler.js'
 import tmdbApi from '../tmdb/tmdb.api.js'
-import usermodel from '../models/user.model.js'
+import userModel from '../models/user.model.js'
 import favoriteModel from '../models/favorite.model.js'
 import reviewModel from '../models/review.model.js'
-import tokenMiddlerware from '../middlewares/token.middleware.js'
+import tokenMiddleware from '../middlewares/token.middleware.js'
 
 const getList = async (req, res) => {
   try {
@@ -48,7 +48,7 @@ const search = async (req, res) => {
 
 const getDetails = async (req, res) => {
   try {
-    const { mediaType, mediaId } = req.params // why params not query? leave it for now
+    const { mediaType, mediaId } = req.params //
 
     const params = { mediaType, mediaId }
 
@@ -60,16 +60,16 @@ const getDetails = async (req, res) => {
 
     media.videos = videos
 
-    const recommand = await tmdbApi.MediaRecommend(params)
+    const recommend = await tmdbApi.MediaRecommend(params)
 
-    media.recommand = recommand.results
+    media.recommend = recommend.results
 
     media.images = await tmdbApi.MediaImages(params)
 
-    const tokenDecoded = tokenMiddlerware.tokenDecode(req)
+    const tokenDecoded = tokenMiddleware.tokenDecode(req)
 
     if (tokenDecoded) {
-      const user = await usermodel.findById(tokenDecoded.data)
+      const user = await userModel.findById(tokenDecoded.data)
 
       if (user) {
         const isFavorite = await favoriteModel.findOne({ user: user.id, mediaId })
@@ -77,10 +77,10 @@ const getDetails = async (req, res) => {
       }
     }
 
-    media.reviews = await reviewModel.find({ mediaId }).poulate('user').sort('-createdAt')
+    media.reviews = await reviewModel.find({ mediaId }).populate('user').sort('-createdAt')
 
     responseHandler.ok(res, media)
-  } catch {
+  } catch (e) {
     responseHandler.error(res)
   }
 }
