@@ -5,7 +5,7 @@ import userModel from '../models/user.model.js'
 const tokenDecode = req => {
   try {
     const bearerHeader = req.headers['authorization']
-
+    //console.log(req.headers)
     if (bearerHeader) {
       const token = bearerHeader.split(' ')[1] //取出"Bearer "後面的token
 

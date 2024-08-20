@@ -13,6 +13,7 @@ import { toast } from 'react-toastify'
 import CircularRate from '../components/common/CircularRate'
 import Container from '../components/common/Container'
 import ImageHeader from '../components/common/ImageHeader'
+import CastSlide from '../components/common/CastSlide'
 
 import uiConfigs from '../configs/ui.configs'
 import tmdbConfigs from '../api/configs/tmdb.configs'
@@ -22,6 +23,8 @@ import favoriteApi from '../api/modules/favorite.api'
 import { setGlobalLoading } from '../redux/features/globalLoadingSlice'
 import { setAuthModalOpen } from '../redux/features/authModalSlice'
 import { addFavorite, removeFavorite } from '../redux/features/userSlice'
+import MediaVideosSlide from '../components/common/MediaVideosSlide'
+import BackdropSlide from '../components/common/BackdropSlide'
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams()
@@ -32,6 +35,7 @@ const MediaDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false)
   const [onRequest, setOnRequest] = useState(false)
   const [genres, setGenres] = useState([])
+  const [loopEnabled, setLoopEnabled] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -47,13 +51,60 @@ const MediaDetail = () => {
         setMedia(response)
         setIsFavorite(response.isFavorite)
         setGenres(response.genres.splice(0, 2))
+        setLoopEnabled(response.credits.cast.length > 1)
         console.log(response, response.isFavorite)
       }
       if (error) toast.error(error)
     }
-
     getMedias()
   }, [mediaType, mediaId, dispatch])
+
+  const handleFavorite = async () => {
+    if (!user) return dispatch(setAuthModalOpen(true))
+
+    if (onRequest) return
+    if (isFavorite) {
+      onRemoveFavorite()
+      return
+    }
+    setOnRequest(true)
+
+    const body = {
+      mediaId: media.id,
+      mediaTitle: media.title || media.name,
+      mediaType: mediaType,
+      mediaPoster: media.poster_path,
+      mediaRate: media.vote_average,
+    }
+
+    const { response, error } = await favoriteApi.add(body)
+    //console.log(response, error)
+    setOnRequest(false)
+    if (error) toast.error(error)
+    if (response) {
+      dispatch(addFavorite(response))
+      setIsFavorite(true)
+      toast.success('Added to favorite')
+    }
+  }
+
+  const onRemoveFavorite = async () => {
+    if (onRequest) return
+    setOnRequest(true)
+
+    const favorite = listFavorites.find(item => item.mediaId.toString() === media.id.toString())
+
+    const { response, error } = await favoriteApi.remove({ favoriteId: favorite.id })
+
+    setOnRequest(false)
+
+    if (error) toast.error(error)
+    if (response) {
+      dispatch(removeFavorite(favorite))
+      setIsFavorite(false)
+      toast.success('Removed from favorite')
+    }
+  }
 
   return media ? (
     <>
@@ -149,7 +200,7 @@ const MediaDetail = () => {
                     startIcon={isFavorite ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
                     loadingPosition="start"
                     loading={onRequest}
-                    // onClick={handleFavorite}
+                    onClick={handleFavorite}
                   />
                   <Button
                     variant="contained"
@@ -164,7 +215,9 @@ const MediaDetail = () => {
                 {/* buttons */}
 
                 {/* cast */}
-                <Container header="Cast"></Container>
+                <Container header="Cast">
+                  <CastSlide casts={media.credits.cast} loopEnabled={loopEnabled} />
+                </Container>
                 {/* cast */}
               </Stack>
             </Box>
@@ -172,6 +225,20 @@ const MediaDetail = () => {
           </Box>
         </Box>
         {/* media Content */}
+        {/* media Videos */}
+        <div ref={videoRef} style={{ paddingTop: '2rem' }}>
+          <Container header="Video">
+            <MediaVideosSlide videos={media.videos.results.splice(0, 5)} />
+          </Container>
+        </div>
+        {/* media Videos */}
+        {/* media backdrop */}
+        {media.images.backdrops.length > 0 && (
+          <Container header="backdrops">
+            <BackdropSlide backdrops={media.images.backdrops} />
+          </Container>
+        )}
+        {/* media backdrop */}
       </Box>
     </>
   ) : null

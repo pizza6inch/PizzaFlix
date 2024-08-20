@@ -6,8 +6,7 @@ import tmdbConfigs from '../../api/configs/tmdb.configs'
 import uiConfigs from '../../configs/ui.configs'
 import { routesGen } from '../../routes/routes'
 
-import 'swiper/swiper.min.css'
-const CastSlide = ({ casts }) => {
+const CastSlide = ({ casts, loopEnabled }) => {
   return (
     <Box
       sx={{
@@ -21,8 +20,36 @@ const CastSlide = ({ casts }) => {
         spaceBetween={10}
         slidesPerView={'auto'}
         grabCursor
+        loop={loopEnabled}
         style={{ width: '100%', height: 'max-content' }}
-      ></Swiper>
+      >
+        {casts.map(cast => (
+          <SwiperSlide key={cast.name}>
+            <Link to={routesGen.person(cast.id)}>
+              <Box
+                sx={{
+                  paddingTop: '120%',
+                  color: 'white',
+                  ...uiConfigs.style.backgroundImage(tmdbConfigs.posterPath(cast.profile_path)),
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: 'max-content',
+                    bottom: 0,
+                    padding: '10px',
+                    backgroundColor: 'rgba(0,0,0,0.6)',
+                  }}
+                >
+                  <Typography sx={{ ...uiConfigs.style.typoLines(1, 'left') }}>{cast.name}</Typography>
+                </Box>
+              </Box>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </Box>
   )
 }
