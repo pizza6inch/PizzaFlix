@@ -25,6 +25,10 @@ import { setAuthModalOpen } from '../redux/features/authModalSlice'
 import { addFavorite, removeFavorite } from '../redux/features/userSlice'
 import MediaVideosSlide from '../components/common/MediaVideosSlide'
 import BackdropSlide from '../components/common/BackdropSlide'
+import PosterSlide from '../components/common/PosterSlide'
+import RecommendSlide from '../components/common/RecommendSlide'
+import MediaSlide from '../components/common/MediaSlide'
+import MediaReview from '../components/common/MediaReview'
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams()
@@ -42,7 +46,9 @@ const MediaDetail = () => {
   const videoRef = useRef(null)
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     const getMedias = async () => {
+      //console.log('getMedias')
       dispatch(setGlobalLoading(true))
       const { response, error } = await mediaApi.getDetail({ mediaType, mediaId })
       dispatch(setGlobalLoading(false))
@@ -52,9 +58,9 @@ const MediaDetail = () => {
         setIsFavorite(response.isFavorite)
         setGenres(response.genres.splice(0, 2))
         setLoopEnabled(response.credits.cast.length > 1)
-        console.log(response, response.isFavorite)
+        console.log(`media`, response)
       }
-      if (error) toast.error(error)
+      if (error) toast.error(error.errors)
     }
     getMedias()
   }, [mediaType, mediaId, dispatch])
@@ -80,7 +86,7 @@ const MediaDetail = () => {
     const { response, error } = await favoriteApi.add(body)
     //console.log(response, error)
     setOnRequest(false)
-    if (error) toast.error(error)
+    if (error) toast.error(error.errors)
     if (response) {
       dispatch(addFavorite(response))
       setIsFavorite(true)
@@ -98,7 +104,7 @@ const MediaDetail = () => {
 
     setOnRequest(false)
 
-    if (error) toast.error(error)
+    if (error) toast.error(error.errors)
     if (response) {
       dispatch(removeFavorite(favorite))
       setIsFavorite(false)
@@ -228,7 +234,7 @@ const MediaDetail = () => {
         {/* media Videos */}
         <div ref={videoRef} style={{ paddingTop: '2rem' }}>
           <Container header="Video">
-            <MediaVideosSlide videos={media.videos.results.splice(0, 5)} />
+            <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />
           </Container>
         </div>
         {/* media Videos */}
@@ -239,6 +245,24 @@ const MediaDetail = () => {
           </Container>
         )}
         {/* media backdrop */}
+        {/* media posters */}
+        {media.images.posters.length > 0 && (
+          <Container header="posters">
+            <PosterSlide posters={media.images.posters} />
+          </Container>
+        )}
+        {/* media posters */}
+        {/* media review */}
+        <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />
+        {/* media review */}
+        {/* media recommendation */}
+        <Container header="you may also like">
+          {media.recommend.length > 0 && <RecommendSlide medias={media.recommend} mediaType={mediaType} />}
+          {media.recommend.length === 0 && (
+            <MediaSlide mediaType={mediaType} mediaCategory={tmdbConfigs.mediaCategory.top_rated} />
+          )}
+        </Container>
+        {/* media recommendation */}
       </Box>
     </>
   ) : null

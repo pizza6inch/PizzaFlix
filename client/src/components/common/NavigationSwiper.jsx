@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper } from 'swiper/react'
 
-const NavigationSwiper = ({ children }) => {
+const NavigationSwiper = ({ children, loopEnabled }) => {
   return (
     <Box
       sx={{
@@ -30,6 +30,7 @@ const NavigationSwiper = ({ children }) => {
     >
       <Swiper
         spaceBetween={10}
+        loop={loopEnabled}
         grabCursor
         pagination={{ clickable: true }}
         navigation={true}

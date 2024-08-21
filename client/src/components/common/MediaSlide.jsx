@@ -20,7 +20,7 @@ const MediaSlide = ({ mediaType, mediaCategory }) => {
         setLoopEnabled(response.results.length > 1)
         setMedias(response.results)
       }
-      if (err) toast.error(err)
+      if (err) toast.error(err.errors)
     }
     getMedias()
   }, [mediaType, mediaCategory])

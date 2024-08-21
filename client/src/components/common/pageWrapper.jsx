@@ -4,12 +4,13 @@ import { setAppState } from '../../redux/features/appStateSlice'
 
 const PageWrapper = ({ state, children }) => {
   const dispatch = useDispatch()
-
+  console.log('scroll')
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
 
   useEffect(() => {
+    //console.log('scroll')
     window.scrollTo(0, 0)
     dispatch(setAppState(state))
   }, [state, dispatch])

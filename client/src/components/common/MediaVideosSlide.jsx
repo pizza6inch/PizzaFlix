@@ -21,7 +21,7 @@ const MediaVideo = ({ video }) => {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [iframeRef, video])
+  }, [iframeRef])
 
   return (
     <Box sx={{ height: 'max-content' }}>
@@ -38,7 +38,7 @@ const MediaVideo = ({ video }) => {
 }
 
 const MediaVideosSlide = ({ videos }) => {
-  console.log(videos)
+  // console.log({ videos })
   return (
     <NavigationSwiper>
       {videos.map(video => (

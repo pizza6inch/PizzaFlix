@@ -37,7 +37,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         setMovies(response.results)
         setLoopEnabled(response.results.length > 1)
       }
-      if (err) toast.error(err.massage)
+      if (err) toast.error(err.errors)
       dispatch(setGlobalLoading(false))
     }
 
@@ -50,7 +50,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         getMedias()
       }
       if (err) {
-        toast.error(err.massage)
+        toast.error(err.errors)
         setGlobalLoading(false)
       }
     }

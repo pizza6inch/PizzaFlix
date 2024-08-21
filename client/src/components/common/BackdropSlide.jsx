@@ -5,8 +5,8 @@ import NavigationSwiper from './NavigationSwiper'
 
 const BackdropSlide = ({ backdrops }) => {
   return (
-    <NavigationSwiper>
-      {backdrops.splice(0, 10).map(backdrop => (
+    <NavigationSwiper loopEnabled={backdrops}>
+      {[...backdrops].splice(0, 10).map(backdrop => (
         <SwiperSlide key={backdrop.file_path}>
           <Box
             sx={{
