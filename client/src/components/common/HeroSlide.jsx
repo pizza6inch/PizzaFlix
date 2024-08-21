@@ -32,7 +32,6 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       })
-      console.log(response.results.length)
       if (response) {
         setMovies(response.results)
         setLoopEnabled(response.results.length > 1)

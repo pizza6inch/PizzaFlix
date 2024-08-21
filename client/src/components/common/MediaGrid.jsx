@@ -1,4 +1,5 @@
 import { Grid } from '@mui/material'
+import MediaItem from './MediaItem'
 
 const MediaGrid = ({ medias, mediaType }) => {
   return (
