@@ -1,5 +1,5 @@
 import React from 'react'
-import { LoadingButton } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import { useEffect, useState, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
@@ -49,7 +49,7 @@ const MediaList = () => {
 
       if (error) toast.error(error.errors)
       if (response) {
-        if (currPage !== 1) setMedias(m => [...m, ...response.data.results])
+        if (currPage !== 1) setMedias(m => [...m, ...response.results])
         else setMedias([...response.results])
       }
     }
@@ -76,7 +76,38 @@ const MediaList = () => {
   return (
     <>
       <HeroSlide mediaType={mediaType} mediaCategory={mediaCategories[currCategory]} />
-      {/* <Box sx={{ uiConfigs }}></Box> */}
+      <Box sx={{ ...uiConfigs.style.mainContent }}>
+        <Stack
+          spacing={2}
+          direction={{ xs: 'column', md: 'row' }}
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ marginBottom: 4 }}
+        >
+          <Typography fontWeight="700" variant="h5">
+            {mediaType === tmdbConfigs.mediaType.movie ? 'Movies' : 'TV Series'}
+          </Typography>
+          <Stack direction="row" spacing={2}>
+            {category.map((cate, index) => (
+              <Button
+                key={index}
+                size="large"
+                variant={currCategory === index ? 'contained' : 'text'}
+                sx={{
+                  color: currCategory === index ? 'primary.contrastText' : 'text.primary',
+                }}
+                onClick={() => onCategoryChange(index)}
+              >
+                {cate}
+              </Button>
+            ))}
+          </Stack>
+        </Stack>
+        <MediaGrid medias={medias} mediaType={mediaType} />
+        <LoadingButton sx={{ marginTop: 8 }} fullWidth color="primary" loading={mediaLoading} onClick={onLoadMore}>
+          load more
+        </LoadingButton>
+      </Box>
     </>
   )
 }
