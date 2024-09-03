@@ -21,21 +21,23 @@ const MediaSearch = () => {
   const search = useCallback(async () => {
     setOnSearch(true)
 
-    const { response, error } = await mediaApi.searchMedia({ mediaType, query, page })
+    const { response, error } = await mediaApi.search({ mediaType, query, page })
 
     setOnSearch(false)
 
     if (error) toast.error(error)
-    if (response) setMedias(m => [...m, ...response.results])
+    if (response) {
+      if (page > 1) setMedias(m => [...m, ...response.results])
+      else setMedias([...response.results])
+    }
   }, [mediaType, query, page])
 
   useEffect(() => {
-    window.scrollTo(0, 0)
     if (query.trim().length === 0) {
       setMedias([])
       setPage(1)
     } else search()
-  }, [search, query, mediaType])
+  }, [search, query, mediaType, page])
 
   useEffect(() => {
     setMedias([])
@@ -44,8 +46,8 @@ const MediaSearch = () => {
 
   const onCategoryChange = selectedCategory => setMediaType(selectedCategory)
 
+  // debounce
   const onQueryChange = e => {
-    // debounce
     const newQuery = e.target.value
     clearTimeout(timer)
     timer = setTimeout(() => setQuery(newQuery), timeout)
@@ -80,6 +82,12 @@ const MediaSearch = () => {
             autoFocus
             onChange={onQueryChange}
           />
+          <MediaGrid medias={medias} mediaType={mediaType} />
+          {medias.length > 0 && (
+            <LoadingButton loading={onSearch} onClick={() => setPage(page + 1)}>
+              load more
+            </LoadingButton>
+          )}
         </Stack>
       </Box>
     </>
