@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 
 const PersonMediaGrid = ({ personId }) => {
   const [medias, setMedias] = useState([])
-  const [filterMedias, setFilterMedias] = useState([])
+  const [filteredMedias, setFilteredMedias] = useState([])
   const [page, setPage] = useState(1)
   const skip = 8
 
@@ -19,7 +19,7 @@ const PersonMediaGrid = ({ personId }) => {
       if (response) {
         const mediasSorted = response.cast.sort((a, b) => getReleaseDate(b) - getReleaseDate(a))
         setMedias([...mediasSorted])
-        setFilterMedias([...mediasSorted].splice(0, skip))
+        setFilteredMedias([...mediasSorted].splice(0, skip))
       }
     }
 
@@ -29,22 +29,24 @@ const PersonMediaGrid = ({ personId }) => {
   const getReleaseDate = media => {
     const date =
       media.media_type === tmdbConfigs.mediaType.movie ? new Date(media.release_date) : new Date(media.first_air_date)
-    return date.getFullYear()
+    return date.getTime()
   }
 
   const onLoadMore = () => {
-    setFilterMedias(...filterMedias, ...[...medias].splice(page * skip, skip))
+    setFilteredMedias([...filteredMedias, ...[...medias].splice(page * skip, skip)])
     setPage(page + 1)
   }
   return (
-    <Grid container spacing={1} sx={{ marginRight: '-8px!important' }}>
-      {medias.map(media => (
-        <Grid item key={media.id} xs={6} sm={4} md={3}>
-          <MediaItem media={media} mediaType={media.media_type} />
-        </Grid>
-      ))}
-      {medias.length > filterMedias.length && <Button onClick={onLoadMore}>Load More</Button>}
-    </Grid>
+    <>
+      <Grid container spacing={1} sx={{ marginRight: '-8px!important' }}>
+        {filteredMedias.map(media => (
+          <Grid item key={media.id} xs={6} sm={4} md={3}>
+            <MediaItem media={media} mediaType={media.media_type} />
+          </Grid>
+        ))}
+      </Grid>
+      {medias.length > filteredMedias.length && <Button onClick={onLoadMore}>Load More</Button>}
+    </>
   )
 }
 
