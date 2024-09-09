@@ -69,7 +69,7 @@ const MediaSearch = () => {
                 }}
                 onClick={() => onCategoryChange(item)}
               >
-                {item}
+                {item === 'people' ? 'actor/actress' : item}
               </Button>
             ))}
           </Stack>
