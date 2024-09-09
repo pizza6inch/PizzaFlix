@@ -37,14 +37,16 @@ const PersonMediaGrid = ({ personId }) => {
     setPage(page + 1)
   }
   return (
-    <Grid container spacing={1} sx={{ marginRight: '-8px!important' }}>
-      {medias.map(media => (
-        <Grid item key={media.id} xs={6} sm={4} md={3}>
-          <MediaItem media={media} mediaType={media.media_type} />
-        </Grid>
-      ))}
+    <>
+      <Grid container spacing={1} sx={{ marginRight: '-8px!important' }}>
+        {filterMedias.map(media => (
+          <Grid item key={media.id} xs={6} sm={4} md={3}>
+            <MediaItem media={media} mediaType={media.media_type} />
+          </Grid>
+        ))}
+      </Grid>
       {medias.length > filterMedias.length && <Button onClick={onLoadMore}>Load More</Button>}
-    </Grid>
+    </>
   )
 }
 

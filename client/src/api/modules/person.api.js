@@ -1,5 +1,4 @@
 import publicClient from '../client/public.client.js'
-import privateClient from '../client/private.client.js'
 
 const personEndpoints = {
   detail: ({ personId }) => `person/${personId}`,
@@ -26,3 +25,5 @@ const personApi = {
     }
   },
 }
+
+export default personApi
