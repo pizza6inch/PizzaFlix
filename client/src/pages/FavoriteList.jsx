@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { LoadingButton } from '@mui/lab'
 import { Box, Button, Grid } from '@mui/material'
-import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import MediaItem from '../components/common/MediaItem'
@@ -15,37 +14,66 @@ import { removeFavorite } from '../redux/features/userSlice'
 const FavoriteItem = ({ media, onRemoved }) => {
   const dispatch = useDispatch()
 
-  const [onRequest, setOnRequest] = useState(false)
+  const [onReuqest, setOnRequest] = useState(false)
 
   const onRemove = async () => {
-    if (onRequest) return
+    if (onReuqest) return
     setOnRequest(true)
-    const { response, err } = await favoriteApi.remove({ favoriteId: media.id })
+    const { response, err } = await favoriteApi.remove({ favoriteId: media._id })
     setOnRequest(false)
 
-    if (err) toast.error(err.errors)
+    if (err) toast.error(err.error)
     if (response) {
-      dispatch(removeFavorite({ mediaId: media.mediaId }))
+      dispatch(removeFavorite(media._id))
       onRemoved(media.id)
     }
   }
-
   return (
     <>
       <MediaItem media={media} mediaType={media.mediaType} />
       <LoadingButton
         fullWidth
         variant="contained"
-        sx={{
-          marginTop: 2,
-        }}
-      ></LoadingButton>
+        sx={{ marginTop: 2 }}
+        startIcon={<DeleteIcon />}
+        loading={onReuqest}
+        onClick={onRemove}
+      >
+        remove
+      </LoadingButton>
     </>
   )
 }
 
 const FavoriteList = () => {
-  return <div>FavoriteList</div>
-}
+  const [medias, setMedias] = useState([])
+  const [filteredMedias, setFilteredMedias] = useState([])
+  const [page, setPage] = useState(1)
+  const [count, setCount] = useState(0)
+  const skip = 8
 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const getFavorites = async () => {
+      dispatch(setGlobalLoading(true))
+      const { response, err } = await favoriteApi.getList()
+      dispatch(setGlobalLoading(false))
+
+      if (err) toast.error(err.message)
+      if (response) {
+        setMedias([...medias])
+        setFilteredMedias([...response].splice(0, skip))
+        setCount(response.length)
+      }
+    }
+    getFavorites()
+  }, [])
+
+  const onLoadMore = () => {
+    setFilteredMedias([...filteredMedias, ...[...medias].slice(page * skip, (page + 1) * skip)])
+  }
+
+  return <></>
+}
 export default FavoriteList

@@ -26,4 +26,8 @@ const personApi = {
   },
 }
 
+<<<<<<< HEAD
 export default personApi
+=======
+export default personApi
+>>>>>>> d58861f0c0cab312335f4ca2ae2441b8988f645b

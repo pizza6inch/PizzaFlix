@@ -13,6 +13,7 @@ import { setGlobalLoading } from '../redux/features/globalLoadingSlice'
 
 const PersonDetail = () => {
   const { personId } = useParams()
+<<<<<<< HEAD
   const [person, setPerson] = useState(null)
 
   const dispatch = useDispatch()
@@ -27,6 +28,20 @@ const PersonDetail = () => {
     }
     getPerson()
   }, [personId, dispatch])
+=======
+  const [person, setPerson] = useState()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const getPerson = async () => {
+      dispatch(setGlobalLoading(true))
+      const { response, err } = await personApi.detail({ personId })
+      dispatch(setGlobalLoading(false))
+      if (err) toast.error(err.message)
+      if (response) setPerson(response)
+    }
+    getPerson()
+  }, [personId])
+>>>>>>> d58861f0c0cab312335f4ca2ae2441b8988f645b
 
   return (
     <>
@@ -51,21 +66,21 @@ const PersonDetail = () => {
                     paddingTop: '160%',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    backgroundColor: 'darkgrey',
+                    backgroundColor: 'darkgray',
                     backgroundImage: `url(${tmdbConfigs.posterPath(person.profile_path)})`,
                   }}
                 />
               </Box>
               <Box
                 sx={{
+                  padding: { xs: '1rem', md: '1rem 2rem' },
                   width: { xs: '100%', md: '80%' },
-                  padding: { xs: '1rem 0', md: '1rem 2rem' },
                 }}
               >
                 <Stack spacing={2}>
                   <Typography variant="h5" fontWeight="700">
-                    {`${person.name} (${person.birthday && person.birthday.split('-')[0]}`}
-                    {person.deathday && ` - ${person.deathday && person.deathday.split('-')[0]}`}
+                    {`${person.name} (${person.birthday.split('-')[0]}`}
+                    {person.deathDay && ` - ${person.deathDay.split('-')[0]}`}
                     {')'}
                   </Typography>
                   <Typography sx={{ ...uiConfigs.style.typoLines(10) }}>{person.biography}</Typography>
