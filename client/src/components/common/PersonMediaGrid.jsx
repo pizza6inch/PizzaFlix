@@ -39,21 +39,13 @@ const PersonMediaGrid = ({ personId }) => {
   return (
     <>
       <Grid container spacing={1} sx={{ marginRight: '-8px!important' }}>
-<<<<<<< HEAD
-        {filterMedias.map(media => (
-=======
         {filteredMedias.map(media => (
->>>>>>> d58861f0c0cab312335f4ca2ae2441b8988f645b
           <Grid item key={media.id} xs={6} sm={4} md={3}>
             <MediaItem media={media} mediaType={media.media_type} />
           </Grid>
         ))}
       </Grid>
-<<<<<<< HEAD
-      {medias.length > filterMedias.length && <Button onClick={onLoadMore}>Load More</Button>}
-=======
       {medias.length > filteredMedias.length && <Button onClick={onLoadMore}>Load More</Button>}
->>>>>>> d58861f0c0cab312335f4ca2ae2441b8988f645b
     </>
   )
 }

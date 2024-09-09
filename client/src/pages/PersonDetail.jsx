@@ -13,7 +13,6 @@ import { setGlobalLoading } from '../redux/features/globalLoadingSlice'
 
 const PersonDetail = () => {
   const { personId } = useParams()
-<<<<<<< HEAD
   const [person, setPerson] = useState(null)
 
   const dispatch = useDispatch()
@@ -28,20 +27,6 @@ const PersonDetail = () => {
     }
     getPerson()
   }, [personId, dispatch])
-=======
-  const [person, setPerson] = useState()
-  const dispatch = useDispatch()
-  useEffect(() => {
-    const getPerson = async () => {
-      dispatch(setGlobalLoading(true))
-      const { response, err } = await personApi.detail({ personId })
-      dispatch(setGlobalLoading(false))
-      if (err) toast.error(err.message)
-      if (response) setPerson(response)
-    }
-    getPerson()
-  }, [personId])
->>>>>>> d58861f0c0cab312335f4ca2ae2441b8988f645b
 
   return (
     <>
