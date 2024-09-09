@@ -66,7 +66,10 @@ const MediaDetail = () => {
   }, [mediaType, mediaId, dispatch])
 
   const handleFavorite = async () => {
-    if (!user) return dispatch(setAuthModalOpen(true))
+    if (!user) {
+      toast.success('你還沒登入捏')
+      return dispatch(setAuthModalOpen(true))
+    }
 
     if (onRequest) return
     if (isFavorite) {

@@ -19,12 +19,13 @@ const FavoriteItem = ({ media, onRemoved }) => {
   const onRemove = async () => {
     if (onReuqest) return
     setOnRequest(true)
-    const { response, err } = await favoriteApi.remove({ favoriteId: media._id })
+    const { response, err } = await favoriteApi.remove({ favoriteId: media.id })
     setOnRequest(false)
 
-    if (err) toast.error(err.error)
+    if (err) toast.error("couldn't remove from favorites")
     if (response) {
-      dispatch(removeFavorite(media._id))
+      toast.success('removed from favorites')
+      dispatch(removeFavorite({ mediaId: media.mediaId }))
       onRemoved(media.id)
     }
   }
@@ -39,7 +40,7 @@ const FavoriteItem = ({ media, onRemoved }) => {
         loading={onReuqest}
         onClick={onRemove}
       >
-        remove
+        {'remove'}
       </LoadingButton>
     </>
   )
@@ -62,7 +63,7 @@ const FavoriteList = () => {
 
       if (err) toast.error(err.message)
       if (response) {
-        setMedias([...medias])
+        setMedias([...response])
         setFilteredMedias([...response].splice(0, skip))
         setCount(response.length)
       }
@@ -72,8 +73,31 @@ const FavoriteList = () => {
 
   const onLoadMore = () => {
     setFilteredMedias([...filteredMedias, ...[...medias].slice(page * skip, (page + 1) * skip)])
+    setPage(page + 1)
   }
 
-  return <></>
+  const onRemoved = id => {
+    const newMedias = [...medias].filter(media => media.id !== id)
+    setMedias(newMedias)
+    setFilteredMedias([...newMedias].slice(0, (page + 1) * skip))
+    setCount(count - 1)
+  }
+
+  return (
+    <>
+      <Box sx={{ ...uiConfigs.style.mainContent }}>
+        <Container header={`your favorites (${count})`}>
+          <Grid container spacing={1} sx={{ marginRight: '-8px!' }}>
+            {filteredMedias.map(media => (
+              <Grid item xs={6} sm={4} md={3} key={media.id}>
+                <FavoriteItem media={media} onRemoved={onRemoved} />
+              </Grid>
+            ))}
+          </Grid>
+          {filteredMedias.length < medias.length && <Button onClick={onLoadMore}>load more</Button>}
+        </Container>
+      </Box>
+    </>
+  )
 }
 export default FavoriteList

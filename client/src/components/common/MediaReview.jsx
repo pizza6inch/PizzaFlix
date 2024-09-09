@@ -18,10 +18,10 @@ const ReviewItem = ({ review, onRemoved }) => {
   const onRemove = async () => {
     if (onRequest) return
     setOnRequest(true)
-    const { response, error } = await reviewApi.remove({ reviewId: review.id })
+    const { response, error } = await reviewApi.remove({ reviewId: review.id }) // 告訴database要刪除哪一筆review
 
     if (error) return toast.error(error.errors)
-    if (response) onRemoved(review.id)
+    if (response) onRemoved(review.id) // 更新當前頁面UI
   }
 
   return (
