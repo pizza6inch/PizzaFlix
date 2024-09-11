@@ -67,11 +67,19 @@ TMDB_API_KEY = <your-tmdb-api-key> # replace it with your API key
 
 ### Front end
 
+
+
+
 ```mermaid
-graph TD
-    A[(redux store)]
-    X[Client] -->|request| Y[Server]
-    Y --> |response| X
+graph BT
+    server --> |send data|component
+    redux[(redux store)] --> |change state |component(component)
+    view -->|show| user(user)
+    component --> |call api| server[server]
+    component --> |dispatch action|redux
+    component(components) --> |render|view(view)
+    user[user] -->|operate|view
+    view(view) --> |trigger|component(components)
 ```
 
 ### Backend
@@ -89,14 +97,4 @@ graph TD
     G --> |res|E
     E --> |success/failed|H
     H(handler) --> |response|A
-```
-
-```mermaid
-sequenceDiagram
-    U->>FE: Request Data
-    FE->>BE: API Request
-    BE->>DB: Database Query
-    DB->>BE: Data
-    BE->>FE: API Response
-    FE->>U: Render Data
 ```
