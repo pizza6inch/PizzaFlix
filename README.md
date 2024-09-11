@@ -48,8 +48,9 @@ TMDB_API_KEY = <your-tmdb-api-key> # replace it with your API key
 
 - Create react app
 - Material UI
-- SwiperJS
 - React router
+- Redux Toolkit
+- SwiperJS
 - Formik
 - Yup
 - Axios
@@ -64,13 +65,38 @@ TMDB_API_KEY = <your-tmdb-api-key> # replace it with your API key
 
 ## Structure
 
+### Front end
+
 ```mermaid
 graph TD
-    A[客戶端] -->|HTTP請求| B(負載均衡器)
-    B --> C{Web服務器集群}
-    C -->|讀取| D[(數據庫)]
-    C -->|寫入| E[(緩存)]
-    C --> F[後台服務]
-    F --> D
-    F --> E
+    A[(redux store)]
+    X[Client] -->|request| Y[Server]
+    Y --> |response| X
+```
+
+### Backend
+
+```mermaid
+graph TD
+    A[Client] -->|request| C(routes)
+    C --> |Requests requiring verification| D(token middleware)
+    C --> |normal request| E(controller)
+    D --> |success|E
+    D --> |failed|H
+    E --> |movie/people request|F[(TMDB Database)]
+    F --> |res|E
+    E --> |user/review/favorite request|G[(mongoDB)]
+    G --> |res|E
+    E --> |success/failed|H
+    H(handler) --> |response|A
+```
+
+```mermaid
+sequenceDiagram
+    U->>FE: Request Data
+    FE->>BE: API Request
+    BE->>DB: Database Query
+    DB->>BE: Data
+    BE->>FE: API Response
+    FE->>U: Render Data
 ```
