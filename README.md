@@ -6,16 +6,23 @@ Take a look! -> [PizzaFlix](https://pizza-flix.vercel.app/)
 - [Features](#features)
 - [How to start app locally](#how-to-start-app-locally)
 - [Technologies](#technologies)
+- [Structure](#structure)
 
 ## Features
 
+### Account System
 - Login/Logout
 - Password Update
 - Account Password Encryption
-- Browse review
-- Write/Delete review
-- Add/Delete movie to favorites
-- Search movie/cast/tv show
+### Review Management
+- User can browse review from others
+- User can write/delete review for movies 
+### Favorite Management
+- User can add/delete movie to favorites
+- User can look up its favorite movies
+### Search System
+- User can search movie/cast/tv show
+### User Interface
 - Dark/Light mode switch
 - Responsive Web Design
 - Interactive slider
@@ -39,8 +46,8 @@ TMDB_BASE_URL = https://api.themoviedb.org/3/
 TMDB_API_KEY = <your-tmdb-api-key> # replace it with your API key
 ```
 
-7. `npm install` `cd /server` `npm start`
-8. create new terminal `cd /client` `npm start`
+7. `cd /server` `npm install` `npm start`
+8. create a new terminal `cd /client` `npm install` `npm start`
 
 ## Technologies
 
