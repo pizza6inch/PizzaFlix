@@ -69,7 +69,7 @@ const FavoriteList = () => {
       }
     }
     getFavorites()
-  }, [])
+  }, [dispatch])
 
   const onLoadMore = () => {
     setFilteredMedias([...filteredMedias, ...[...medias].slice(page * skip, (page + 1) * skip)])

@@ -1,4 +1,4 @@
-import { Box, Typography, CircularProgress, Typo } from '@mui/material'
+import { Box, Typography, CircularProgress } from '@mui/material'
 
 import React from 'react'
 

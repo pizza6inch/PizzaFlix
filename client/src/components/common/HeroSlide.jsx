@@ -3,12 +3,11 @@ import { Box, Button, Chip, Divider, Stack, Typography, useTheme } from '@mui/ma
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { AutoPlay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { toast } from 'react-toastify'
 
 import { setGlobalLoading } from '../../redux/features/globalLoadingSlice'
-import routes, { routesGen } from '../../routes/routes'
+import { routesGen } from '../../routes/routes'
 
 import uiConfigs from '../../configs/ui.configs'
 import CircularRate from './CircularRate'
@@ -26,35 +25,31 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
   const [loopEnabled, setLoopEnabled] = useState(false)
 
   useEffect(() => {
-    const getMedias = async () => {
-      const { response, err } = await mediaApi.getList({
-        mediaType,
-        mediaCategory,
-        page: 1,
-      })
-      dispatch(setGlobalLoading(false))
-      if (response) {
-        setMovies(response.results)
-        setLoopEnabled(response.results.length > 1)
-      }
-      if (err) toast.error(err.errors)
-    }
-
-    const getGenres = async () => {
+    const fetchData = async () => {
       dispatch(setGlobalLoading(true))
-      const { response, err } = await genreApi.getList({ mediaType })
-      // console.log(response.genres)
-      if (response) {
-        setGenres(response.genres)
-        getMedias()
+
+      const [genreResponse, mediaResponse] = await Promise.all([
+        genreApi.getList({ mediaType }),
+        mediaApi.getList({ mediaType, mediaCategory, page: 1 }),
+      ])
+
+      dispatch(setGlobalLoading(false))
+
+      if (genreResponse.response) {
+        setGenres(genreResponse.response.genres)
+      } else {
+        toast.error(genreResponse.err.errors)
       }
-      if (err) {
-        toast.error(err.errors)
-        setGlobalLoading(false)
+
+      if (mediaResponse.response) {
+        setMovies(mediaResponse.response.results)
+        setLoopEnabled(mediaResponse.response.results.length > 1)
+      } else {
+        toast.error(mediaResponse.err.errors)
       }
     }
 
-    getGenres()
+    fetchData()
   }, [mediaType, mediaCategory, dispatch])
 
   return (
