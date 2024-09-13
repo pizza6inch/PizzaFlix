@@ -1,4 +1,4 @@
-const baseurl = process.env.TMDB_BASE_URL // 'https://api.themoviedb.org/3'
+const baseurl = process.env.TMDB_BASE_URL // 'https://api.themoviedb.org/3/'
 const key = process.env.TMDB_API_KEY // 'your_api_key'
 
 const getUrl = (endpoint, params) => {

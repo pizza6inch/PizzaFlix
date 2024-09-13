@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Toolbar, Typography, Stack, Button } from '@mui/material'
+import { Box, Toolbar, Typography, Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PersonMediaGrid from '../components/common/PersonMediaGrid'

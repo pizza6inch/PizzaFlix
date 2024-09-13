@@ -3,12 +3,11 @@ import { Box, Button, Chip, Divider, Stack, Typography, useTheme } from '@mui/ma
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { toast } from 'react-toastify'
 
 import { setGlobalLoading } from '../../redux/features/globalLoadingSlice'
-import routes, { routesGen } from '../../routes/routes'
+import { routesGen } from '../../routes/routes'
 
 import uiConfigs from '../../configs/ui.configs'
 import CircularRate from './CircularRate'
@@ -25,35 +24,31 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
   const [loopEnabled, setLoopEnabled] = useState(false)
 
   useEffect(() => {
-    const getMedias = async () => {
-      const { response, err } = await mediaApi.getList({
-        mediaType,
-        mediaCategory,
-        page: 1,
-      })
-      if (response) {
-        setMovies(response.results)
-        setLoopEnabled(response.results.length > 1)
-      }
-      if (err) toast.error(err.errors)
-      dispatch(setGlobalLoading(false))
-    }
-
-    const getGenres = async () => {
+    const fetchData = async () => {
       dispatch(setGlobalLoading(true))
-      const { response, err } = await genreApi.getList({ mediaType })
-      // console.log(response.genres)
-      if (response) {
-        setGenres(response.genres)
-        getMedias()
+
+      const [genreResponse, mediaResponse] = await Promise.all([
+        genreApi.getList({ mediaType }),
+        mediaApi.getList({ mediaType, mediaCategory, page: 1 }),
+      ])
+
+      dispatch(setGlobalLoading(false))
+
+      if (genreResponse.response) {
+        setGenres(genreResponse.response.genres)
+      } else {
+        toast.error(genreResponse.err.errors)
       }
-      if (err) {
-        toast.error(err.errors)
-        setGlobalLoading(false)
+
+      if (mediaResponse.response) {
+        setMovies(mediaResponse.response.results)
+        setLoopEnabled(mediaResponse.response.results.length > 1)
+      } else {
+        toast.error(mediaResponse.err.errors)
       }
     }
 
-    getGenres()
+    fetchData()
   }, [mediaType, mediaCategory, dispatch])
 
   return (
@@ -61,12 +56,14 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       sx={{
         position: 'relative',
         color: 'primary.contrastText',
+        minWidth: '100%',
+        aspectRatio: { lg: '2.5/1', md: '2/1', sm: '1.5/1', xs: '1/1' }, // decease cumualtive layout shift
         '&::before': {
           content: '""',
           width: '100%',
           height: '30%',
           position: 'absolute',
-          bottom: 0,
+          top: '70%',
           left: 0,
           zIndex: 2,
           pointerEvents: 'none',

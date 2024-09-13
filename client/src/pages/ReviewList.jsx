@@ -3,7 +3,7 @@ import { LoadingButton } from '@mui/lab'
 import { Box, Button, Divider, Stack, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
 import tmdbConfigs from '../api/configs/tmdb.configs'
@@ -113,7 +113,7 @@ const ReviewList = () => {
       }
     }
     getReviews()
-  }, [])
+  }, [dispatch])
 
   const onLoadMore = () => {
     setFilteredReviews([...filteredReviews, ...[...reviews].slice(page * skip, (page + 1) * skip)])
