@@ -10,12 +10,16 @@ import MainLayout from './components/layout/Main.Layout'
 import routes from './routes/routes'
 import PageWrapper from './components/common/PageWrapper'
 
+import measureWebVitals from './web-vitals'
+
 import 'react-toastify/dist/ReactToastify.css'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 const App = () => {
+  measureWebVitals()
+
   const { themeMode } = useSelector(state => state.themeMode)
   return (
     <ThemeProvider theme={themeConfigs.custom({ mode: themeMode })}>

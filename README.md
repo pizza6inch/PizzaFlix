@@ -11,18 +11,27 @@ Take a look! -> [PizzaFlix](https://pizza-flix.vercel.app/)
 ## Features
 
 ### Account System
+
 - Login/Logout
 - Password Update
 - Account Password Encryption
+
 ### Review Management
+
 - User can browse review from others
-- User can write/delete review for movies 
+- User can write/delete review for movies
+
 ### Favorite Management
+
 - User can add/delete movie to favorites
 - User can look up its favorite movies
+
 ### Search System
+
 - User can search movie/cast/tv show
+
 ### User Interface
+
 - Dark/Light mode switch
 - Responsive Web Design
 - Interactive slider
@@ -74,9 +83,6 @@ TMDB_API_KEY = <your-tmdb-api-key> # replace it with your API key
 
 ### Front end
 
-
-
-
 ```mermaid
 graph BT
     server --> |send data|component
@@ -105,3 +111,10 @@ graph TD
     E --> |success/failed|H
     H(handler) --> |response|A
 ```
+
+## Lighthouse report
+
+![alt text](/img/overall.png)
+![alt text](/img/webvitals.png)
+
+### Core Web Vitals
