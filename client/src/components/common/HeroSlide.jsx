@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { toast } from 'react-toastify'
-
+import { Autoplay } from 'swiper/modules'
 import { setGlobalLoading } from '../../redux/features/globalLoadingSlice'
 import { routesGen } from '../../routes/routes'
 
