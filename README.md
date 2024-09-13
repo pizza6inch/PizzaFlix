@@ -117,4 +117,7 @@ graph TD
 ![alt text](/img/overall.png)
 ![alt text](/img/webvitals.png)
 
-### Core Web Vitals
+### web-vitals report
+
+
+![alt text](image.png)
