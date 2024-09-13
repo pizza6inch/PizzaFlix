@@ -15,12 +15,7 @@ const AutoSwiper = ({ children, loopEnabled }) => {
         },
       }}
     >
-      <Swiper
-        loop={loopEnabled}
-        slidesPerView="auto"
-        grabCursor={true}
-        style={{ width: '100%', height: 'max-content' }}
-      >
+      <Swiper loop={loopEnabled} slidesPerView="auto" grabCursor={true} style={{ width: '100%', minHeight: '438px' }}>
         {children}
       </Swiper>
     </Box>

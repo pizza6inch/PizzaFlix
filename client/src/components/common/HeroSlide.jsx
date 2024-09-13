@@ -32,12 +32,12 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         mediaCategory,
         page: 1,
       })
+      dispatch(setGlobalLoading(false))
       if (response) {
         setMovies(response.results)
         setLoopEnabled(response.results.length > 1)
       }
       if (err) toast.error(err.errors)
-      dispatch(setGlobalLoading(false))
     }
 
     const getGenres = async () => {
@@ -62,12 +62,14 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       sx={{
         position: 'relative',
         color: 'primary.contrastText',
+        minWidth: '100%',
+        aspectRatio: { lg: '2.5/1', md: '2/1', sm: '1.5/1', xs: '1/1' }, // decease cumualtive layout shift
         '&::before': {
           content: '""',
           width: '100%',
           height: '30%',
           position: 'absolute',
-          bottom: 0,
+          top: '70%',
           left: 0,
           zIndex: 2,
           pointerEvents: 'none',
