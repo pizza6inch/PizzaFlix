@@ -117,7 +117,11 @@ graph TD
 ![alt text](/img/overall.png)
 ![alt text](/img/webvitals.png)
 
-### web-vitals report
+## web-vitals report  
 
 
+use [web-vitals](https://github.com/GoogleChrome/web-vitals?tab=readme-ov-file#basic-usage) library to analyze performance
+
+- LCP(Largest Contentful Paint): 2.296 ms 
+- INP()
 ![alt text](image.png)
