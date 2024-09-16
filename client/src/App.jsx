@@ -18,7 +18,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 
 const App = () => {
-  measureWebVitals()
+  // measureWebVitals() // uncomment this line to measure web vitals
 
   const { themeMode } = useSelector(state => state.themeMode)
   return (

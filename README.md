@@ -117,11 +117,18 @@ graph TD
 ![alt text](/img/overall.png)
 ![alt text](/img/webvitals.png)
 
-## web-vitals report  
-
+## web-vitals report
 
 use [web-vitals](https://github.com/GoogleChrome/web-vitals?tab=readme-ov-file#basic-usage) library to analyze performance
 
-- LCP(Largest Contentful Paint): 2.296 ms 
-- INP()
+| Metric | Value  | Performance     |
+| ------ | ------ | --------------- |
+| LCP    | 2296ms | Good <2500ms    |
+| FCP    | 1570ms | Good <1800ms    |
+| TTFB   | 996ms  | Medium 800ms< < |
+| FID    | 4ms    | Good <100ms     |
+| CLS    | 0.007  | Good <0.1       |
+
+Performance is determined based on [Web Vitals metrics thresholds](https://web.dev/articles/defining-core-web-vitals-thresholds)
+
 ![alt text](image.png)
