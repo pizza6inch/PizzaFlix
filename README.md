@@ -115,7 +115,7 @@ graph TD
 ## Lighthouse report
 
 ![alt text](/img/overall.png)
-![alt text](/img/webvitals.png)
+![alt text](/img/metrics.png)
 
 ## web-vitals report
 
@@ -131,4 +131,4 @@ use [web-vitals](https://github.com/GoogleChrome/web-vitals?tab=readme-ov-file#b
 
 Performance is determined based on [Web Vitals metrics thresholds](https://web.dev/articles/defining-core-web-vitals-thresholds)
 
-![alt text](image.png)
+![alt text](/img/webvitals.png)
