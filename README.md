@@ -7,22 +7,32 @@ Take a look! -> [PizzaFlix](https://pizza-flix.vercel.app/)
 - [How to start app locally](#how-to-start-app-locally)
 - [Technologies](#technologies)
 - [Structure](#structure)
+- [Performance](#lighthouse-report)
 
 ## Features
 
 ### Account System
+
 - Login/Logout
 - Password Update
 - Account Password Encryption
+
 ### Review Management
+
 - User can browse review from others
-- User can write/delete review for movies 
+- User can write/delete review for movies
+
 ### Favorite Management
+
 - User can add/delete movie to favorites
 - User can look up its favorite movies
+
 ### Search System
+
 - User can search movie/cast/tv show
+
 ### User Interface
+
 - Dark/Light mode switch
 - Responsive Web Design
 - Interactive slider
@@ -74,9 +84,6 @@ TMDB_API_KEY = <your-tmdb-api-key> # replace it with your API key
 
 ### Front end
 
-
-
-
 ```mermaid
 graph BT
     server --> |send data|component
@@ -89,7 +96,7 @@ graph BT
     view(view) --> |trigger|component(components)
 ```
 
-### Backend
+### Back end
 
 ```mermaid
 graph TD
@@ -105,3 +112,23 @@ graph TD
     E --> |success/failed|H
     H(handler) --> |response|A
 ```
+
+## Lighthouse report
+
+![alt text](/img/overall.png)
+![alt text](/img/metrics.png)
+
+## web-vitals report
+
+- Use [web-vitals](https://github.com/GoogleChrome/web-vitals?tab=readme-ov-file#basic-usage) library to analyze performance
+- Performance is determined based on [Web Vitals metrics thresholds](https://web.dev/articles/defining-core-web-vitals-thresholds)
+
+| Metric | Value  | Performance                     |
+| ------ | ------ | ------------------------------- |
+| LCP    | 2296ms | Good <2500ms                    |
+| FCP    | 1570ms | Good <1800ms                    |
+| TTFB   | 996ms  | Medium between 800ms and 1800ms |
+| FID    | 4ms    | Good <100ms                     |
+| CLS    | 0.007  | Good <0.1                       |
+
+![alt text](/img/webvitals.png)
