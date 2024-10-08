@@ -133,4 +133,7 @@ graph TD
 
 ## Credits
 
-- UI design inspired by [trananhtuat/fullstack-mern-movie-2022](https://github.com/trananhtuat/fullstack-mern-movie-2022).
+This project was built to understand how [trananhtuat/fullstack-mern-movie-2022](https://github.com/trananhtuat/fullstack-mern-movie-2022) implemented certain features. I studied their approach and built it independently 
+## Development Notes
+
+This development note is the result I recorded after solving problems during development. [Development Documentation](https://unexpected-idea-5fa.notion.site/PizzaFlix-052179d1fed24d55b9d869c39c1900ac).
