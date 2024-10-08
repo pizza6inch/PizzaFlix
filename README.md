@@ -130,3 +130,7 @@ graph TD
 | TTFB   | 996ms  | Medium between 800ms and 1800ms |
 | FID    | 4ms    | Good <100ms                     |
 | CLS    | 0.007  | Good <0.1                       |
+
+## Credits
+
+- UI design inspired by [trananhtuat/fullstack-mern-movie-2022](https://github.com/trananhtuat/fullstack-mern-movie-2022).
